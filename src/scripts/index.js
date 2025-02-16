@@ -1,6 +1,6 @@
 import '../pages/index.css';
 import { initialCards } from './cards.js';
-import { openModal, closeModal } from './components/modal.js';
+import { openModal, closeModal, setPopupEventListener } from './components/modal.js';
 import { createCard, deleteCard, handleLike } from './components/card.js';
 
 // Получаем темплейт карточки и DOM-узел для списка карточек
@@ -19,21 +19,6 @@ const popupImage = document.querySelector('.popup_type_image');
 // Элементы попапа картинки
 const img = popupImage.querySelector('.popup__image');
 const caption = popupImage.querySelector('.popup__caption');
-
-// Функция установки обработчиков закрытия попапов (крестик + клик вне формы)
-const setPopupEventListener = (el) => {
-  const closeButton = el.querySelector('.popup__close');
-
-  if (closeButton) {
-    closeButton.addEventListener('click', () => closeModal(el));
-  }
-
-  el.addEventListener('mousedown', (e) => {
-    if (e.target.classList.contains('popup')) {
-      closeModal(el);
-    }
-  });
-};
 
 // Навесим обработчики закрытия попапов
 setPopupEventListener(popupProfile);

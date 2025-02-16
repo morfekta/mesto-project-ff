@@ -23,3 +23,17 @@ export const closeModal = (modal) => {
   document.removeEventListener('keydown', handleEscKey);
 }
 
+// Функция установки обработчиков закрытия попапов (крестик + клик вне формы)
+export const setPopupEventListener = (el) => {
+  const closeButton = el.querySelector('.popup__close');
+
+  if (closeButton) {
+    closeButton.addEventListener('click', () => closeModal(el));
+  }
+
+  el.addEventListener('mousedown', (e) => {
+    if (e.target.classList.contains('popup')) {
+      closeModal(el);
+    }
+  });
+};
