@@ -33,6 +33,11 @@ function handleImageClick(cardData) {
   openModal(popupImage);
 }
 
+// Устанавливаем класс для плавной анимации сразу при загрузке
+document.querySelectorAll('.popup').forEach((modal) => {
+  modal.classList.add('popup_is-animated');
+});
+
 // Инициализация карточек (отрисовываем на странице)
 initialCards.forEach(cardData => {
   const card = createCard(cardTemplate, cardData, deleteCard, handleImageClick, handleLike);
@@ -40,15 +45,11 @@ initialCards.forEach(cardData => {
 });
 
 // Настроим форму редактирования профиля
-const profileFormElement = popupProfile.querySelector('.popup__form');
+const profileFormElement = document.forms['edit-profile'];
 const nameInput = profileFormElement.elements.name;
 const jobInput = profileFormElement.elements.description;
 const profileName = document.querySelector('.profile__title');
 const profileDescription = document.querySelector('.profile__description');
-
-// Заполним поля формы текущими значениями при открытии
-nameInput.value = profileName.textContent;
-jobInput.value = profileDescription.textContent;
 
 // Обработчик отправки формы редактирования профиля
 function handleProfileFormSubmit(e) {
@@ -62,8 +63,8 @@ function handleProfileFormSubmit(e) {
 profileFormElement.addEventListener('submit', handleProfileFormSubmit);
 
 // Настроим форму добавления новой карточки
-const newCardFormElement = popupNewCard.querySelector('.popup__form');
-const cardNameInput = newCardFormElement.querySelector('.popup__input_type_card-name');
+const newCardFormElement = document.forms['new-place'];
+const cardNameInput = newCardFormElement.elements['place-name'];
 const linkInput = newCardFormElement.elements.link;
 
 // Обработчик отправки формы добавления карточки
@@ -78,12 +79,17 @@ function handleNewCardFormSubmit(e) {
     const card = createCard(cardTemplate, cardData, deleteCard, handleImageClick, handleLike);
     cardsList.prepend(card);
     closeModal(popupNewCard);
-    cardNameInput.value = '';
-    linkInput.value = '';
+    e.target.reset();
 }
 
 newCardFormElement.addEventListener('submit', handleNewCardFormSubmit);
 
 // Обработчики открытия попапов
-profileEditButton.addEventListener('click', (e) => openModal(popupProfile));
+profileEditButton.addEventListener('click', (e) => {
+  // Заполним поля формы текущими значениями при открытии
+  nameInput.value = profileName.textContent;
+  jobInput.value = profileDescription.textContent;
+
+  openModal(popupProfile);
+});
 newCardAddButton.addEventListener('click', (e) => openModal(popupNewCard));

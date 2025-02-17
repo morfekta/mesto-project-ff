@@ -6,11 +6,6 @@ const handleEscKey = (e) => {
   }
 };
 
-// Устанавливаем класс для плавной анимации сразу при загрузке
-document.querySelectorAll('.popup').forEach((modal) => {
-  modal.classList.add('popup_is-animated');
-});
-
 // Функция открытия попапа
 export const openModal = (modal) => {
   modal.classList.add('popup_is-opened');
